@@ -1,28 +1,46 @@
 package org.project.taskify.Task;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
 import java.util.Date;
 import java.util.Objects;
 
+@Entity
 public class Task {
     private String name;
     private String description;
     private String status;
     private String priority;
-    private String dueDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
+    private Date dueDate;
     private String assignee;
     private String reporter;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date createdDate;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date updatedDate;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+
 //    private Priority priority;
 
     public Task() {
     }
 
+    public Task(String description, String name) {
+        this.description = description;
+        this.name = name;
+    }
+
     public Task(String assignee,
                 Date createdDate,
                 String description,
-                String dueDate,
+                Date dueDate,
                 int id,
                 String name,
                 String priority,
@@ -35,7 +53,7 @@ public class Task {
         this.dueDate = dueDate;
         this.id = id;
         this.name = name;
-        this.priority = priority;
+        this.priority = priority;//todo : make Enum
         this.reporter = reporter;
         this.status = status;
         this.updatedDate = updatedDate;
@@ -45,7 +63,7 @@ public class Task {
     public Task(String assignee,
                 Date createdDate,
                 String description,
-                String dueDate,
+                Date dueDate,
                 String name,
                 String priority,
                 String reporter,
@@ -74,7 +92,7 @@ public class Task {
         return description;
     }
 
-    public String getDueDate() {
+    public Date getDueDate() {
         return dueDate;
     }
 
@@ -114,7 +132,7 @@ public class Task {
         this.description = description;
     }
 
-    public void setDueDate(String dueDate) {
+    public void setDueDate(Date dueDate) {
         this.dueDate = dueDate;
     }
 

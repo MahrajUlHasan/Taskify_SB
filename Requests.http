@@ -7,3 +7,28 @@ GET http://localhost:8080/api/v1/task/tasks
 
 ###
 
+POST http://localhost:8080/api/v1/task/tasks
+Content-Type: application/json
+
+{
+  "name": "Task 10",
+  "description": "This is task 10",
+  "status": "Open",
+  "priority": "High",
+  "dueDate": "2023-10-10",
+  "assignee": "MJ222",
+  "reporter": "MJ222",
+  "createdDate": "2023-10-10",
+  "updatedDate": "2023-10-10"
+}
+
+###
+
+POST http://localhost:8080/api/v1/task/tasks
+Content-Type: application/json
+
+{
+  "name": "Task 2",
+  "description": "This is task 2"
+}
+

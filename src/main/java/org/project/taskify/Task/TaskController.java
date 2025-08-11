@@ -1,19 +1,29 @@
 package org.project.taskify.Task;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
 @RestController
 @RequestMapping(path = "api/v1/task")
 public class TaskController {
-    
+
+
+    private final TaskService taskService;
+
+    public TaskController(TaskService taskService) {
+        this.taskService = taskService;
+    }
 
     @GetMapping("/tasks")
-    public ArrayList<Task> getTasks()
+    public List<Task> getAllTasks()
     {
-        return new ArrayList<>(Arrays.asList(new Task(), new Task()));
+        return taskService.getAllTasks();
+
+    }
+    @PostMapping("/tasks")
+    public Task insertTask(@RequestBody Task task)
+    {
+        return taskService.insertTask(task);
     }
 }
