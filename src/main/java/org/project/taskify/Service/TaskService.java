@@ -1,13 +1,16 @@
-package org.project.taskify.Task;
+package org.project.taskify.Service;
 
 
+import org.project.taskify.Exceptions.TaskNotFoundException;
+import org.project.taskify.Model.Task;
+import org.project.taskify.Repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
 @Service
-public class TaskService {
+public class TaskService implements ITaskService{
     private final TaskRepository taskRepository;
 
     public TaskService(TaskRepository taskRepository) {
@@ -18,6 +21,11 @@ public class TaskService {
     public List<Task> getAllTasks()
     {
      return taskRepository.findAll();
+    }
+
+    @Override
+    public Task getTaskById(Integer id) {
+        return taskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException("Task with id " + id + " not found"));
     }
 
     public Task insertTask(Task task) {
@@ -54,7 +62,40 @@ public class TaskService {
         }
     }
 
-//    public void deleteTask() {
-//        taskRepository.delete();
-//    }
+    @Override
+    public void deleteTask(Integer id) {
+        taskRepository.findById(id).ifPresentOrElse(taskRepository::delete, ()->{
+            throw new TaskNotFoundException("Task with id " + id + " not found");
+        });
+    }
+
+    public List<Task> getTasksById(List<Integer> id) throws IllegalArgumentException{
+        return taskRepository.findAllById(id);
+    }
+
+    @Override
+    public List<Task> getTasksByCategory(Integer categoryId) {
+        return List.of();
+    }
+
+    @Override
+    public List<Task> getTasksByStatus(String status) {
+        return List.of();
+    }
+
+    @Override
+    public List<Task> getTasksByPriority(String priority) {
+        return List.of();
+    }
+
+    @Override
+    public List<Task> getTasksByDueDate(String dueDate) {
+        return List.of();
+    }
+
+    @Override
+    public void updateTask(Task task) {
+        insertTask(task);
+    }
+
 }
